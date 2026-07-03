@@ -4,6 +4,8 @@
 ## Get latest from `dotnet new gitignore`
 [Oo]bj/
 obj/
+appsettings.json
+
 # dotenv files
 .env
 
