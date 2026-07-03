@@ -1,7 +1,9 @@
-﻿using TodoApp;
+﻿using Microsoft.EntityFrameworkCore;
+using TodoApp;
 
-List<TodoItem> todos = new List<TodoItem>();
-int nextId = 1;
+using var db = new TodoDbContext();
+db.Database.EnsureCreated();
+
 bool running = true;
 
 while (running)
@@ -42,17 +44,17 @@ while (running)
 
 void ListTasks()
 {
+    var todos = db.Todos.OrderBy(t => t.Id).ToList();
     if (todos.Count == 0)
     {
         Console.WriteLine("No tasks available.");
         return;
     }
 
-    Console.WriteLine("\n-- TASK LIST --");
     foreach (var todo in todos)
     {
-        string status = todo.IsDone ? "[X]" : "[ ]";
-        Console.WriteLine($"{todo.Id}. {status} {todo.Title}");
+        
+        Console.WriteLine(todo);
     }
 }
 
@@ -66,9 +68,9 @@ void AddTask()
         return;
     }
 
-    todos.Add(new TodoItem { Id = nextId, Title = title });
-    Console.WriteLine($"Added task: {title}");
-    nextId++;
+    db.Todos.Add(new TodoItem { Title = title });
+    db.SaveChanges();
+    Console.WriteLine($"Task '{title}' added successfully.");
 }
 
 void CompleteTask()
@@ -76,10 +78,11 @@ void CompleteTask()
     Console.Write("Enter task ID to mark as complete: ");
     if (int.TryParse(Console.ReadLine(), out int id))
     {
-        var todo = todos.FirstOrDefault(t => t.Id == id);
+        var todo = db.Todos.FirstOrDefault(t => t.Id == id);
         if (todo != null)
         {
             todo.IsDone = true;
+            db.SaveChanges();
             Console.WriteLine($"Task '{todo.Title}' marked as complete.");
         }
         else
@@ -98,8 +101,17 @@ void DeleteTask()
     Console.Write("Enter task ID to delete: ");
     if (int.TryParse(Console.ReadLine(), out int id))
     {
-        int removed = todos.RemoveAll(t => t.Id == id);
-        Console.WriteLine(removed > 0 ? $"Task with ID {id} deleted." : "Task not found.");
+        var todo = db.Todos.FirstOrDefault(t => t.Id == id);
+        if (todo != null)
+        {
+            db.Todos.Remove(todo);
+            db.SaveChanges();
+            Console.WriteLine($"Task with ID {id} deleted.");
+        }
+        else
+        {
+            Console.WriteLine("Task not found.");
+        }
     }
     else
     {
