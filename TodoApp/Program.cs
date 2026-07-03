@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TodoApp;
+using Shared;
 
 using var db = new TodoDbContext();
 db.Database.EnsureCreated();

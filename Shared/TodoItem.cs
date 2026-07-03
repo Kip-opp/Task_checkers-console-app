@@ -1,4 +1,4 @@
-namespace TodoApp;
+namespace Shared;
 
 public class TodoItem
 {

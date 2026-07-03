@@ -482,6 +482,20 @@
         "build": {
           "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
+      },
+      "Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "9.0.17",
+          "Microsoft.EntityFrameworkCore.Sqlite": "9.0.17"
+        },
+        "compile": {
+          "bin/placeholder/Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shared.dll": {}
+        }
       }
     }
   },
@@ -1171,12 +1185,18 @@
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "Shared/1.0.0": {
+      "type": "project",
+      "path": "../Shared/Shared.csproj",
+      "msbuildProject": "../Shared/Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
       "Microsoft.EntityFrameworkCore >= 8.0.0",
-      "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.0"
+      "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.0",
+      "Shared >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -1203,7 +1223,11 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\cuppy\\c-sharp\\TaskAndGamesHub\\Shared\\Shared.csproj": {
+              "projectPath": "C:\\Users\\cuppy\\c-sharp\\TaskAndGamesHub\\Shared\\Shared.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -1250,5 +1274,25 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1605",
+      "level": "Error",
+      "message": "Warning As Error: Detected package downgrade: Microsoft.EntityFrameworkCore from 9.0.17 to 8.0.0. Reference the package directly from the project to select a different version. \r\n TodoApp -> Shared -> Microsoft.EntityFrameworkCore (>= 9.0.17) \r\n TodoApp -> Microsoft.EntityFrameworkCore (>= 8.0.0)",
+      "libraryId": "Microsoft.EntityFrameworkCore",
+      "targetGraphs": [
+        "net9.0"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Error",
+      "message": "Warning As Error: Detected package downgrade: Microsoft.EntityFrameworkCore.Sqlite from 9.0.17 to 8.0.0. Reference the package directly from the project to select a different version. \r\n TodoApp -> Shared -> Microsoft.EntityFrameworkCore.Sqlite (>= 9.0.17) \r\n TodoApp -> Microsoft.EntityFrameworkCore.Sqlite (>= 8.0.0)",
+      "libraryId": "Microsoft.EntityFrameworkCore.Sqlite",
+      "targetGraphs": [
+        "net9.0"
+      ]
+    }
+  ]
 }
