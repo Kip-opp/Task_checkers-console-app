@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+    
+    - name: Restore .NET dependencies
+      run: dotnet restore TaskAndGamesHub.sln
+    
+    - name: Build .NET solution
+      run: dotnet build TaskAndGamesHub.sln --configuration Release --no-restore
+    
+    - name: Run .NET tests
+      run: dotnet test TaskAndGamesHub.sln --configuration Release --no-build
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    
+    - name: Install frontend dependencies
+      run: npm ci --prefix hub-frontend
+    
+    - name: Lint frontend
+      run: npm run lint --prefix hub-frontend
+    
+    - name: Build frontend
+      run: npm run build --prefix hub-frontend
