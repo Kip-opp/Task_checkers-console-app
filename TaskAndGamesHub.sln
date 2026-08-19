@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApi", "TodoApi\TodoApi.csproj", "{55263EEF-636B-4109-AF64-01CFBFDA9C1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers.Core", "Checkers.Core\Checkers.Core.csproj", "{E8B2A64E-0E83-4B9B-9B71-3CE7B5EA9DD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{55263EEF-636B-4109-AF64-01CFBFDA9C1A}.Release|x64.Build.0 = Release|Any CPU
 		{55263EEF-636B-4109-AF64-01CFBFDA9C1A}.Release|x86.ActiveCfg = Release|Any CPU
 		{55263EEF-636B-4109-AF64-01CFBFDA9C1A}.Release|x86.Build.0 = Release|Any CPU
+		{E8B2A64E-0E83-4B9B-9B71-3CE7B5EA9DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8B2A64E-0E83-4B9B-9B71-3CE7B5EA9DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8B2A64E-0E83-4B9B-9B71-3CE7B5EA9DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8B2A64E-0E83-4B9B-9B71-3CE7B5EA9DD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
