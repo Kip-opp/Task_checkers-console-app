@@ -1,16 +1,20 @@
-# React + Vite
+# Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The browser client for Task & Games Hub is a React 19 and Vite application.
 
-Currently, two official plugins are available:
+Use the repository-level [README](../README.md) for the complete .NET-first setup, database migration, API configuration, and application run instructions.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Frontend-only commands from the repository root:
 
-## React Compiler
+```powershell
+npm --prefix hub-frontend ci
+npm --prefix hub-frontend run dev
+npm --prefix hub-frontend run lint
+npm --prefix hub-frontend run build
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Set `VITE_API_BASE_URL` when the API is not running at the default development URL:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```powershell
+$env:VITE_API_BASE_URL = "http://localhost:5086/api"
+```

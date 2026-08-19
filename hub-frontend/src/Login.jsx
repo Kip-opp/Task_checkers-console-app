@@ -20,7 +20,7 @@ export default function Login({ onLogin }) {
         setIsRegistering(false);
       } else {
         const data = await login(username, password);
-        onLogin(data.token);
+        onLogin(data.token, username.trim());
       }
     } catch (err) {
       setError(err.message);
@@ -28,28 +28,33 @@ export default function Login({ onLogin }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{isRegistering ? "Register" : "Login"}</h2>
+    <form className="auth-panel" onSubmit={handleSubmit}>
+      <div><p className="eyebrow">Welcome back</p><h2>{isRegistering ? "Create your account" : "Sign in to Notes"}</h2><p className="muted">Your notes are private to your account.</p></div>
       <input
+        className="field"
+        aria-label="Username"
+        autoComplete="username"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
+        className="field"
+        aria-label="Password"
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button type="submit">{isRegistering ? "Register" : "Log in"}</button>
+      <button className="button button--primary" type="submit">{isRegistering ? "Create account" : "Log in"}</button>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {info && <p style={{ color: "green" }}>{info}</p>}
+      {error && <p className="form-message form-message--error" role="alert">{error}</p>}
+      {info && <p className="form-message form-message--success" role="status">{info}</p>}
 
       <p>
         {isRegistering ? "Already have an account?" : "Need an account?"}{" "}
         <button type="button" onClick={() => setIsRegistering(!isRegistering)}>
-          {isRegistering ? "Log in instead" : "Register instead"}
+          {isRegistering ? "Log in instead" : "Create an account"}
         </button>
       </p>
     </form>

@@ -4,11 +4,12 @@ import TodoList from "../TodoList";
 
 export default function TodoPage() {
     const [token, setToken] = useState(null);
+        const [username, setUsername] = useState("");
 
     return (
-        <div style={{ padding: "24px" }}>
-          <h1>Todo</h1>
-            {!token ? <Login onLogin={setToken} /> : <TodoList token={token} />}
+                <div className="page page--notes">
+                    <header className="page-header"><div><p className="eyebrow">Personal workspace</p><h1>Notes</h1><p className="lede">Keep the small commitments visible and moving.</p></div>{token && <button className="button button--quiet" onClick={() => { setToken(null); setUsername(""); }}>Log out</button>}</header>
+                        {!token ? <Login onLogin={(nextToken, nextUsername) => { setToken(nextToken); setUsername(nextUsername); }} /> : <TodoList token={token} username={username} />}
         </div>
     );
 }
