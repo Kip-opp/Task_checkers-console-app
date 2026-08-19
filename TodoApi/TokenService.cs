@@ -13,11 +13,12 @@ public class TokenService
         _configuration = configuration;
     }
 
-    public string GenerateToken(string username)
+    public string GenerateToken(Shared.User user)
     {
         var claims = new[]
         {
-            new Claim(ClaimTypes.Name, username)
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(System.Globalization.CultureInfo.InvariantCulture)),
+            new Claim(ClaimTypes.Name, user.Username)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:key"]!));
@@ -27,7 +28,7 @@ public class TokenService
             issuer: _configuration["Jwt:issuer"],
             audience: _configuration["Jwt:audience"],
             claims: claims,
-            expires: DateTime.Now.AddHours(2),
+            expires: DateTime.UtcNow.AddHours(2),
             signingCredentials: creds
         );
 

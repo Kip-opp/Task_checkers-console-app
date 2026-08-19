@@ -68,7 +68,7 @@ void AddTask()
         return;
     }
 
-    db.Todos.Add(new TodoItem { Title = title });
+    db.Todos.Add(new TodoItem { OwnerId = 1, Title = title });
     db.SaveChanges();
     Console.WriteLine($"Task '{title}' added successfully.");
 }

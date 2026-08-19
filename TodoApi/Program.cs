@@ -6,9 +6,13 @@ using Microsoft.IdentityModel.Tokens;
 using TodoApi;
 
 var builder = WebApplication.CreateBuilder(args);
+var jwtKey = builder.Configuration["Jwt:key"] ?? throw new InvalidOperationException("Jwt:key must be configured.");
+var jwtIssuer = builder.Configuration["Jwt:issuer"] ?? throw new InvalidOperationException("Jwt:issuer must be configured.");
+var jwtAudience = builder.Configuration["Jwt:audience"] ?? throw new InvalidOperationException("Jwt:audience must be configured.");
+if (jwtKey.Length < 32) throw new InvalidOperationException("Jwt:key must be at least 32 characters.");
 
 // Add services to the container.
-builder.Services.AddDbContext<TodoDbContext>();
+builder.Services.AddDbContext<TodoDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("Todos") ?? "Data Source=todos.db"));
 builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddControllers();
@@ -48,9 +52,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:issuer"],
-            ValidAudience = builder.Configuration["Jwt:audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"]!))
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            ValidAlgorithms = [SecurityAlgorithms.HmacSha256]
         };
     });
 
@@ -59,7 +64,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // React app URL
+        policy.WithOrigins(builder.Configuration.GetSection("Cors:Origins").Get<string[]>() ?? ["http://localhost:5173"])
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -67,12 +72,6 @@ builder.Services.AddCors(options =>
 });          
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
-    db.Database.EnsureCreated();
-}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
